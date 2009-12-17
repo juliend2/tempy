@@ -1,0 +1,36 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+body{
+	font-family: Georgia, Times, sans-serif;
+	font-size: 62.5%;
+	color: #2F2F2F;
+}
+h1,h2,p {
+	padding-left: 0.4em;
+}
+h1 {
+	font-size: 2em;
+	padding-top: 0.4em;
+	padding-bottom: 0.2em;
+}
+h2 {
+	font-size: 1.5em;
+}
+p {
+	font-size: 1.24em;
+}
+td {
+	padding-bottom: 0.6em;
+	border-left: 1px solid #389993 ;
+	border-bottom: 2px solid #1C4E4B ;
+	border-right: 1px solid #389993 ;
+}
+span.weekday {
+	background: #389993;
+	color: #FFF;
+	display: block;
+	font-size: 1.1em;
+	padding: 0.2em 0.5em;
+}
