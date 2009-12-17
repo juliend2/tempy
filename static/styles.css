@@ -34,3 +34,9 @@ span.weekday {
 	font-size: 1.1em;
 	padding: 0.2em 0.5em;
 }
+p.total {
+	border-top: 1px dashed #AEAEAE;
+	background: #E4E4E4;
+	margin-top: 5px;
+	font-size: 1.3em;
+}

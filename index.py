@@ -4,7 +4,11 @@
 import os
 import re
 import datetime
-from temps import TempsDate,HourBloc
+from temps import TempsDate,HourBloc,jourdesemaine
+import locale
+
+locale.setlocale(locale.LC_NUMERIC, "fr_FR.UTF-8")
+
 
 path = '/Users/juliend2/Desktop/Dropbox/perso/ressources/TEMPS/'
 
@@ -40,7 +44,7 @@ for d in range(0, (now-timeslist[0].date).days+1):
 	currentdate = timeslist[0].date + datetime.timedelta(days=d)
 	if currentdate.weekday() == 0:
 		print '</tr><tr>'
-	print '<td valign="top"><span class="weekday">'+currentdate.strftime("%A")+'</span>'
+	print '<td valign="top"><span class="weekday">'+jourdesemaine(currentdate.weekday())+'</span>'
 	print '<h1>'+currentdate.strftime("%d %B %Y") + '</h1>'
 	currTemps = datetime.date(currentdate.year, currentdate.month, currentdate.day)
 	if currTemps in dateslist:
@@ -48,16 +52,21 @@ for d in range(0, (now-timeslist[0].date).days+1):
 		datefile = open(path + tdateobj.to_filename())
 		# lines = ''.join(datefile.readlines())
 		hourblocs = re.split('\n\t?\n', ''.join(datefile.readlines()))
+		totalminsbloc = 0
 		for bloc in hourblocs:
 			try:
 				hbloc = HourBloc(bloc)
 				print "<h2>"+hbloc.proj_name+":</h2>"
 				hours = hbloc.get_minutes()/60
 				mins = hbloc.get_minutes()%60
+				totalminsbloc += hbloc.get_minutes()
 				print "<p>"+str(hours)+'h'+ "%02d"%mins +"</p>"
 				
 			except AttributeError: # when we grab a line that is not a project bloc
 				pass
+		totalhours =totalminsbloc/60
+		totalmins = totalminsbloc%60
+		print '<p class="total">Total: <b>'+str(totalhours)+'h'+ "%02d"%totalmins +'</b></p>'
 			
 		
 	print '</td>'

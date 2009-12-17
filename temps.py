@@ -12,6 +12,24 @@ import os
 import datetime
 import re
 
+def jourdesemaine(day_int):
+	if day_int==0:
+		return 'Lundi'
+	elif day_int==1:
+		return 'Mardi'
+	elif day_int==2:
+		return 'Mercredi'
+	elif day_int==3:
+		return 'Jeudi'
+	elif day_int==4:
+		return 'Vendredi'
+	elif day_int==5:
+		return 'Samedi'
+	elif day_int==6:
+		return 'Dimanche'
+	else:
+		return 'Pas un jour de semaine'
+
 class TempsDate:
 	day=0
 	month=0
