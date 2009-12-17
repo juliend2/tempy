@@ -40,11 +40,13 @@ now = datetime.date.today()
 
 print '<table border="0" width="100%" cellpadding="0" cellspacing="0"><tr>'
 
+projects = {}
+
 for d in range(0, (now-timeslist[0].date).days+1):
 	currentdate = timeslist[0].date + datetime.timedelta(days=d)
 	if currentdate.weekday() == 0:
 		print '</tr><tr>'
-	print '<td valign="top"><span class="weekday">'+jourdesemaine(currentdate.weekday())+'</span>'
+	print '<td valign="top" width="14%"><span class="weekday">'+jourdesemaine(currentdate.weekday())+'</span>'
 	print '<h1>'+currentdate.strftime("%d %B %Y") + '</h1>'
 	currTemps = datetime.date(currentdate.year, currentdate.month, currentdate.day)
 	if currTemps in dateslist:
@@ -56,9 +58,14 @@ for d in range(0, (now-timeslist[0].date).days+1):
 		for bloc in hourblocs:
 			try:
 				hbloc = HourBloc(bloc)
-				print "<h2>"+hbloc.proj_name+":</h2>"
+				print "<h2>"+hbloc.temps_desc+":</h2>"
 				hours = hbloc.get_minutes()/60
 				mins = hbloc.get_minutes()%60
+				projects.get(hbloc.proj_name, hbloc.get_minutes())
+				try:
+					projects[hbloc.proj_name] += hbloc.get_minutes()
+				except KeyError:
+					projects[hbloc.proj_name] = hbloc.get_minutes()
 				totalminsbloc += hbloc.get_minutes()
 				print "<p>"+str(hours)+'h'+ "%02d"%mins +"</p>"
 				
@@ -71,6 +78,14 @@ for d in range(0, (now-timeslist[0].date).days+1):
 		
 	print '</td>'
 	
-print '</tr></table>'
+print '</tr></table><br/>'
+print '<h1>Total d\'heures par projets :</h1>'
+print '<dl>'
+for projname,value in projects.items():
+	print '<dt>'+projname+' : </dt>'
+	hours = value/60
+	mins = value%60
+	print '<dd>'+str(hours)+'h'+"%02d"%mins+'</dd>'
+print '</dl>'
 
 print '</body></html>'
