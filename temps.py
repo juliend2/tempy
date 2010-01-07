@@ -71,7 +71,7 @@ class HourBloc:
 		return match.group(0)
 
 	def _get_hour_lines_list(self):
-		lines  = re.split('\n\t', self.proj_string)
+		lines  = re.split('\n(\t|    |  )', self.proj_string) # *Keep the order* supports tabs, 2-space soft tabs and 4-space soft tabs. 
 		tlist = []
 		for line in lines:
 			m = re.match('(\d?\d)h(\d\d) - (\d?\d)h(\d\d)', line) # get the hour-minutes
@@ -85,9 +85,14 @@ if __name__ == '__main__':
 	t = TempsDate(1985,10,23)
 	print t.to_filename() # should output: 85-10-23.txt
 	
-	h = HourBloc("coiteux (ajouter script seo) :\n\t9h25 - 9h45\n\t9h55 - 10h00")
+	h = HourBloc("coiteux (ajouter script seo) :\n\t9h25 - 9h45\n  9h55 - 10h00\n    9h55 - 10h00")
 	print h._get_hour_lines_list()
  	print h.get_minutes()
 	print h.proj_name
 	print h.temps_desc
+	
+	h2 = HourBloc("micrium-salesforce :\n  15h15 - 15h55\n")
+	print h2.get_minutes()
+
+
 

@@ -15,12 +15,12 @@ path = '/Users/juliend2/Desktop/Dropbox/perso/ressources/TEMPS/'
 print "Content-Type: text/html"     # HTML is following
 print                               # blank line, end of headers
 
-print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
-print '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'
-print '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>'
-print '<title>TemPy</title>'
-print '<link href="/static/styles.css" media="screen" rel="stylesheet" type="text/css" />' # symlinked from outside the cgi-bin
-print '</head><body>'
+print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>TemPy</title>
+<link href="/static/styles.css" media="screen" rel="stylesheet" type="text/css" />
+</head><body>"""
 
 timeslist= []
 dateslist= []
@@ -52,8 +52,7 @@ for d in range(0, (now-timeslist[0].date).days+1):
 	if currTemps in dateslist:
 		tdateobj = TempsDate(currentdate.strftime("%y"), currentdate.month, currentdate.day)
 		datefile = open(path + tdateobj.to_filename())
-		# lines = ''.join(datefile.readlines())
-		hourblocs = re.split('\n\t?\n', ''.join(datefile.readlines()))
+		hourblocs = re.split('\n(\t|    |  |)\n', ''.join(datefile.readlines()))
 		totalminsbloc = 0
 		for bloc in hourblocs:
 			try:
@@ -78,14 +77,14 @@ for d in range(0, (now-timeslist[0].date).days+1):
 		
 	print '</td>'
 	
-print '</tr></table><br/>'
-print '<h1>Total d\'heures par projets :</h1>'
-print '<dl>'
+print """
+			</tr></table><br/>
+			<h1>Total d'heures par projets :</h1>
+			<dl>"""
 for projname,value in projects.items():
 	print '<dt>'+projname+' : </dt>'
 	hours = value/60
 	mins = value%60
 	print '<dd>'+str(hours)+'h'+"%02d"%mins+'</dd>'
 print '</dl>'
-
 print '</body></html>'
