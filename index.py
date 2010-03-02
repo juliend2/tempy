@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 # encoding: utf-8
 
 import os
@@ -10,7 +10,7 @@ import locale
 locale.setlocale(locale.LC_NUMERIC, "fr_FR.UTF-8")
 
 
-path = '/Users/juliend2/Desktop/Dropbox/perso/ressources/TEMPS/'
+path = open('timepath.conf').read().strip()
 
 print "Content-Type: text/html"     # HTML is following
 print                               # blank line, end of headers
@@ -26,6 +26,7 @@ timeslist= []
 dateslist= []
 
 dirList=os.listdir(path) # get the files in the directory
+dirList.sort()
 for fname in dirList:
 	match = re.match('(\d\d)\-(\d\d)\-(\d\d)\.txt', fname) # get the txt files
 	if match:
