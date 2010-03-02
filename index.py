@@ -3,7 +3,9 @@
 
 import os
 import re
+import cgi
 import datetime
+import types
 from temps import TempsDate,HourBloc,jourdesemaine
 import locale
 
@@ -27,6 +29,15 @@ dateslist= []
 
 dirList=os.listdir(path) # get the files in the directory
 dirList.sort()
+qs = cgi.FieldStorage()
+try:
+	from_date = qs.getvalue('from')
+	if type(from_date) is not None:
+		dirList = dirList[dirList.index(from_date+'.txt'):]
+except :
+	pass
+print '<p>'+str(len(dirList)) + ' jours calcul&eacute;s</p>'
+print '<h1><a href="index.py">Voir Tous</a></h1>'
 for fname in dirList:
 	match = re.match('(\d\d)\-(\d\d)\-(\d\d)\.txt', fname) # get the txt files
 	if match:
@@ -48,7 +59,7 @@ for d in range(0, (now-timeslist[0].date).days+1):
 	if currentdate.weekday() == 0:
 		print '</tr><tr>'
 	print '<td valign="top" width="14%"><span class="weekday">'+jourdesemaine(currentdate.weekday())+'</span>'
-	print '<h1>'+currentdate.strftime("%d %B %Y") + '</h1>'
+	print '<h1><a href="index.py?from='+currentdate.strftime("%y-%m-%d")+'">'+currentdate.strftime("%d %B %Y") + '</a></h1>'
 	currTemps = datetime.date(currentdate.year, currentdate.month, currentdate.day)
 	if currTemps in dateslist:
 		tdateobj = TempsDate(currentdate.strftime("%y"), currentdate.month, currentdate.day)
